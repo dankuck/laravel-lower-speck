@@ -1,0 +1,38 @@
+{
+  "name": "lower-speck/laravel-lower-speck",
+  "description": "A Laravel command for Lower Speck requirements management",
+  "license": "MIT",
+  "keywords": ["lower speck", "laravel", "requirements management"],
+  "authors": [
+    {
+      "name": "Daniel Kuck-Alvarez",
+      "email": "dankuck@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "~3.0",
+    "php-mock/php-mock-mockery": "^1.1",
+    "phpunit/phpunit": "~5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "LowerSpeck\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "LowerSpeck\\ServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable"
+}
