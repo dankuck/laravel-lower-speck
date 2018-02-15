@@ -29,7 +29,7 @@ class ReferenceGrepper
         foreach ($this->paths as $path) {
             $query = escapeshellarg('\\bLWR\\s+\\d');
             $dir = escapeshellarg($path);
-            $lines = `grep -P $query $dir -R`;
+            $lines = `grep -E $query $dir -R`;
             foreach (preg_split('/\n/', $lines) as $line) {
                 preg_match_all('/\bLWR\s+(\d+[\.a-z]+)/i', $line, $matches);
                 foreach ($matches[1] as $match) {
