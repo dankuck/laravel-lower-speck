@@ -2,7 +2,7 @@
 
 namespace LowerSpeck;
 
-use Illuminate\Console\Command;
+use Illuminate\Console\Command as IlluminateCommand;
 
 class Reporter
 {
@@ -19,7 +19,7 @@ class Reporter
         $this->verbosity = $verbosity;
     }
 
-    public function report(Command $command)
+    public function report(IlluminateCommand $command)
     {
         $previous_was_blank = null;
         $table_data = collect($this->analysis->requirements)
