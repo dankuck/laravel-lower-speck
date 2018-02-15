@@ -6,6 +6,7 @@ class ReferenceGrepper
 {
     private $paths;
     private $references = null;
+    private $grep_interface = null;
 
     public function __construct(array $paths) 
     {
@@ -31,14 +32,20 @@ class ReferenceGrepper
      */
     private function detectGrepInterface() : string
     {
-        $gnu_style = `echo "LWR 1" | grep -P '\\bLWR\\s+\\d' 2>&1`;
-        if (trim($gnu_style) == 'LWR 1') {
-            return 'GNU';
+        if ($this->grep_interface) {
+            return $this->grep_interface;
         }
 
-        $bsd_style = `echo "LWR 1" | grep -E '\\bLWR\\s+\\d' 2>&1`;
-        if (trim($bsd_style) == 'LWR 1') {
-            return 'BSD';
+        $gnu_style = `echo " LWR  1" | grep -P '\\bLWR\\s+\\d' 2>&1`;
+        if (trim($gnu_style) == 'LWR  1') {
+            $this->grep_interface = 'GNU';
+            return $this->grep_interface;
+        }
+
+        $bsd_style = `echo " LWR  1" | grep -E '\\bLWR\\s+\\d' 2>&1`;
+        if (trim($bsd_style) == 'LWR  1') {
+            $this->grep_interface = 'BSD';
+            return $this->grep_interface;
         }
 
         throw new \Exception('Could not detect grep version.');
