@@ -28,7 +28,7 @@ class ReferenceGrepperTest extends TestCase
      * (or else the root) recursively to find strings referencing the 
      * requirements from the `requirements.lwr` file.
      */
-    public function testhasReferenceTo()
+    public function testHasReferenceTo()
     {
         $path1 = base_path(str_random(4));
         $file1 = $path1 . '/' . str_random(8) . '.php';
