@@ -1,55 +1,55 @@
 
 1. This package must provide an artisan command to parse a Lower Speck file and output information about it.
 
-1.a. The command must expect the Lower Speck file to be named `requirements.lwr` and reside at the root of the project.
+    1.a. The command must expect the Lower Speck file to be named `requirements.lwr` and reside at the root of the project.
 
-1.b. The command should expect a config file named `lower-speck.json` to reside at the root of the project.
-1.b.a. The command should expect the config file to contain an object in JSON format.
-1.b.b. The command should expect the object's key named `paths` to have an array of strings.
+    1.b. The command should expect a config file named `lower-speck.json` to reside at the root of the project.
+        1.b.a. The command should expect the config file to contain an object in JSON format.
+        1.b.b. The command should expect the object's key named `paths` to have an array of strings.
 
-1.c. The command must use default values if the `lower-speck.json` file is absent.
+    1.c. The command must use default values if the `lower-speck.json` file is absent.
 
-1.d. The command must parse the `requirements.lwr` file into an appropriate structure.
+    1.d. The command must parse the `requirements.lwr` file into an appropriate structure.
 
-1.e. The command must accept arguments.
-1.e.a. The command must accept `-v` as an optional argument to enter verbose mode.
-1.e.b. The command must accept `-vv` as an optional argument to enter double-verbose mode.
-1.e.c. The command must accept an ID as an optional argument.
+    1.e. The command must accept arguments.
+        1.e.a. The command must accept `-v` as an optional argument to enter verbose mode.
+        1.e.b. The command must accept `-vv` as an optional argument to enter double-verbose mode.
+        1.e.c. The command must accept an ID as an optional argument.
 
-1.f. The command must grep the directories from the `paths` array (or else the root) recursively to find strings referencing the requirements from the `requirements.lwr` file.
-1.f.a. If an ID was supplied as an argument, the command MAY only search for that requirement and its sub-requirements.
+    1.f. The command must grep the directories from the `paths` array (or else the root) recursively to find strings referencing the requirements from the `requirements.lwr` file.
+        1.f.a. If an ID was supplied as an argument, the command MAY only search for that requirement and its sub-requirements.
 
-1.g. The command must output a description of the code's references to the requirements.
-1.g.a. If an ID was supplied as an argument, the command MUST only give output relative to that requirement and its sub-requirements.
-1.g.b. The command must output progress as the percentage of requirements that have been addressed.
-1.g.c. The command must output the number of requirements that are not obsolete. 
-1.g.d. The command must output the number of requirements that have been addressed and are not obsolete.
-1.g.e. The command should output the number of requirements that are obsolete.
+    1.g. The command must output a description of the code's references to the requirements.
+        1.g.a. If an ID was supplied as an argument, the command MUST only give output relative to that requirement and its sub-requirements.
+        1.g.b. The command must output progress as the percentage of requirements that have been addressed.
+        1.g.c. The command must output the number of requirements that are not obsolete. 
+        1.g.d. The command must output the number of requirements that have been addressed and are not obsolete.
+        1.g.e. The command should output the number of requirements that are obsolete.
 
-1.g.f. The command must output a list of the requirements according to the following rules:
-1.g.f.a In normal mode and above the command must output any requirements that are not addressed and not obsolete as well as any incomplete requirements that are addressed and not obsolete.
-1.g.f.b. In verbose mode and above the command must output all requirements that are not obsolete.
-1.g.f.c. In double-verbose mode and above the command must output all requirements.
-1.g.f.d. Repeated blank lines should be collapsed to one.
-1.g.f.e. Leading and trailing blank lines should not be shown in the report.
+        1.g.f. The command must output a list of the requirements according to the following rules:
+            1.g.f.a In normal mode and above the command must output any requirements that are not addressed and not obsolete as well as any incomplete requirements that are addressed and not obsolete.
+            1.g.f.b. In verbose mode and above the command must output all requirements that are not obsolete.
+            1.g.f.c. In double-verbose mode and above the command must output all requirements.
+            1.g.f.d. Repeated blank lines should be collapsed to one.
+            1.g.f.e. Leading and trailing blank lines should not be shown in the report.
 
-1.g.g. The command must output the following information about each requirement it outputs.
-1.g.g.a. The command must output a warning with any requirements that do not use the keywords defined in RFC 2119.
-1.g.g.b. The command must output a warning with any requirements that use unknown flags that do not begin with a dash (-).
-1.g.g.c. The command must output a warning with any requirements that are incomplete.
-1.g.g.d. The command must output an error with any requirements that cannot be parsed.
-1.g.g.e. The command must output an error with any requirement immediately following a gap.
-1.g.g.f. The command must output an error with any requirement with an ID that is duplicated.
-1.g.g.g. The command must output an error with any requirement that is out of order.
-1.g.g.h. The command must output a flag with any requirements that are not addressed.
-1.g.g.i. The command must output a flag with any requirements that are obsoleted.
+        1.g.g. The command must output the following information about each requirement it outputs.
+            1.g.g.a. The command must output a warning with any requirements that do not use the keywords defined in RFC 2119.
+            1.g.g.b. The command must output a warning with any requirements that use unknown flags that do not begin with a dash (-).
+            1.g.g.c. The command must output a warning with any requirements that are incomplete.
+            1.g.g.d. The command must output an error with any requirements that cannot be parsed.
+            1.g.g.e. The command must output an error with any requirement immediately following a gap.
+            1.g.g.f. The command must output an error with any requirement with an ID that is duplicated.
+            1.g.g.g. The command must output an error with any requirement that is out of order.
+            1.g.g.h. The command must output a flag with any requirements that are not addressed.
+            1.g.g.i. The command must output a flag with any requirements that are obsoleted.
 
-1.g.h. The command should output the number of warnings due to missing RFC 2119 keywords.
-1.g.i. The command should output the number of warnings due to unexpected custom flags.
-1.g.j. The command should output the number of errors due to failure to parse.
-1.g.k. The command should output the number of errors due to gaps.
-1.g.l. The command should output the number of duplicate ID's.
-1.g.m. The command should output the number of errors due to requirements being out of order.
+        1.g.h. The command should output the number of warnings due to missing RFC 2119 keywords.
+        1.g.i. The command should output the number of warnings due to unexpected custom flags.
+        1.g.j. The command should output the number of errors due to failure to parse.
+        1.g.k. The command should output the number of errors due to gaps.
+        1.g.l. The command should output the number of duplicate ID's.
+        1.g.m. The command should output the number of errors due to requirements being out of order.
 
 
 
