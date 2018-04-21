@@ -242,10 +242,11 @@ class AnalyzerTest extends TestCase
         );
         $this->assertEquals(
             new RequirementAnalysis([
-                'line'        => '1.a Must love dogs',
-                'has_error'   => true,
-                'is_inactive' => true,
-                'notes'       => ['Cannot Parse Requirement'],
+                'line'            => '1.a Must love dogs',
+                'has_error'       => true,
+                'has_parse_error' => true,
+                'is_inactive'     => true,
+                'notes'           => ['Cannot Parse Requirement'],
             ]),
             $analysis->requirements[1]
         );

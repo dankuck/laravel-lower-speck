@@ -31,6 +31,7 @@ class Analyzer
                 if ($requirement->hasParseError()) {
                     $analysis->parseFailureCount++;
                     $requirement_analysis->has_error = true;
+                    $requirement_analysis->has_parse_error = true;
                     $requirement_analysis->is_inactive = true;
                     $requirement_analysis->notes[] = "Cannot Parse Requirement";
                 } elseif ($requirement->hasFlag('X')) {
