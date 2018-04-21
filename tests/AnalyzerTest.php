@@ -242,10 +242,11 @@ class AnalyzerTest extends TestCase
         );
         $this->assertEquals(
             new RequirementAnalysis([
-                'line'        => '1.a Must love dogs',
-                'has_error'   => true,
-                'is_inactive' => true,
-                'notes'       => ['Cannot Parse Requirement'],
+                'line'            => '1.a Must love dogs',
+                'has_error'       => true,
+                'has_parse_error' => true,
+                'is_inactive'     => true,
+                'notes'           => ['Cannot Parse Requirement'],
             ]),
             $analysis->requirements[1]
         );
@@ -256,6 +257,69 @@ class AnalyzerTest extends TestCase
             ]),
             $analysis->requirements[2]
         );
+    }
+
+    /**
+     * @LWR 1.g. The command must output a description of the code's 
+     * references to the requirements.
+     *
+     * @LWR 1.g.b. The command must output progress as the percentage of 
+     * requirements that have been addressed.
+     * 
+     * @LWR 1.g.c. The command must output the number of requirements that are 
+     * not obsolete.
+     *
+     * @LWR 1.g.d. The command must output the number of requirements that 
+     * have been addressed and are not obsolete.
+     *
+     * @LWR 1.g.e. The command should output the number of requirements that 
+     * are obsolete.
+     *
+     * @LWR 1.g.f.c. In double-verbose mode and above the command must output 
+     * all requirements.
+     *
+     * @LWR 1.g.g.d. The command must output an error with any requirements 
+     * that cannot be parsed.
+     *
+     * @LWR 1.g.g.d.a. The command MUST output parse errors even for 
+     * requirements that do not fall within the super ID supplied to the 
+     * command.
+     * 
+     * @LWR 1.g.j. The command should output the number of errors due to 
+     * failure to parse.
+     */
+    public function testReportBadParseWrongSuperId()
+    {
+        $requirements = [
+            new Requirement('1. Must love dogs'),
+            new Requirement('1.a Must love dogs'),
+            new Requirement('1.b. Must love dogs'),
+        ];
+
+        $spec = new Specification($requirements);
+
+        $id = 2;
+
+        $analyzer = new Analyzer($spec, $this->buildGrepper([]));
+        $analysis = $analyzer->getAnalysis($id);
+
+        $this->assertEquals(0, $analysis->progress);
+        $this->assertEquals(0, $analysis->active);
+        $this->assertEquals(0, $analysis->addressed);
+        $this->assertEquals(0, $analysis->obsolete);
+        $this->assertEquals(1, $analysis->parseFailureCount);
+
+        $this->assertEquals(
+            new RequirementAnalysis([
+                'line'            => '1.a Must love dogs',
+                'has_error'       => true,
+                'has_parse_error' => true,
+                'is_inactive'     => true,
+                'notes'           => ['Cannot Parse Requirement'],
+            ]),
+            $analysis->requirements[0]
+        );
+        $this->assertCount(1, $analysis->requirements);
     }
 
     /**

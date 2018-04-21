@@ -36,7 +36,7 @@ class Command extends \Illuminate\Console\Command
 
         $this->info('Results:');
 
-        app(Reporter::class, [$analysis, $this->getVerbosity(), $id])->report($this);
+        app(Reporter::class, [$analysis, $this->getVerbosity()])->report($this);
     }
 
     private function getVerbosity() : int

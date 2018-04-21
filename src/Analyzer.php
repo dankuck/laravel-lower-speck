@@ -21,7 +21,7 @@ class Analyzer
         $last_was_failed_parse = false;
 
         $requirements = $super_id 
-            ? $this->specification->getByIdWithChildren($super_id)
+            ? $this->specification->getByIdWithChildren($super_id, true)
             : $this->specification->getAll();
 
         $analysis->requirements = array_map(function ($requirement) use (&$last_id, &$last_was_failed_parse, $analysis, $super_id) {
@@ -31,6 +31,7 @@ class Analyzer
                 if ($requirement->hasParseError()) {
                     $analysis->parseFailureCount++;
                     $requirement_analysis->has_error = true;
+                    $requirement_analysis->has_parse_error = true;
                     $requirement_analysis->is_inactive = true;
                     $requirement_analysis->notes[] = "Cannot Parse Requirement";
                 } elseif ($requirement->hasFlag('X')) {

@@ -58,8 +58,12 @@ class ReporterTest extends TestCase
      * 
      * @LWR 1.g.m. The command should output the number of errors due to 
      * requirements being out of order.
+     *
+     * @LWR 1.g.g.d.a. The command MUST output parse errors even for 
+     * requirements that do not fall within the super ID supplied to the 
+     * command.
      */
-    public function testReportAFewThings()
+    public function testReportAFewThings_VeryVerbose()
     {
         $analysis = new Analysis();
         $analysis->progress = 60;
@@ -93,7 +97,14 @@ class ReporterTest extends TestCase
                 'is_pending' => true,
                 'has_warning' => true,
                 'notes' => ['Well-written requirements use RFC 2119 keywords such as MUST, SHOULD, and MAY'],
-            ])
+            ]),
+
+            new RequirementAnalysis([]),
+
+            new RequirementAnalysis([
+                'line'            => 'PARSE ERROR',
+                'has_parse_error' => true,
+            ]),
         ];
         $analysis->rfc2119WarningCount = 1;
         $analysis->customFlagWarningCount = 2;
@@ -142,6 +153,8 @@ class ReporterTest extends TestCase
                     ['', '3. The gods must be crazy'],
                     ['-', '  3.a. Funny you should ask'],
                     ['-?', "  3.b. It shood happen to you\nWell-written requirements use RFC 2119 keywords such as MUST, SHOULD, and MAY"],
+                    ['', ''],
+                    ['', 'PARSE ERROR'],
                 ]
             )
             ->once();
@@ -206,14 +219,15 @@ class ReporterTest extends TestCase
         $analysis->obsolete = 8;
         $analysis->requirements = [
             new RequirementAnalysis([
-                'line' => 'Wooo',
-                'is_inactive' => true,
-                'has_error' => true,
-                'is_obsolete' => true,
-                'is_incomplete' => true,
-                'has_warning' => true,
-                'is_pending' => true,
-                'notes' => ['We'],
+                'line'            => 'Wooo',
+                'is_inactive'     => true,
+                'has_error'       => true,
+                'is_obsolete'     => true,
+                'is_incomplete'   => true,
+                'has_warning'     => true,
+                'is_pending'      => true,
+                'has_parse_error' => true,
+                'notes'           => ['We'],
             ]),
         ];
         $analysis->duplicateIdErrorCount = 5;
@@ -291,8 +305,12 @@ class ReporterTest extends TestCase
      * failure to parse.
      *
      * @LWR 1.g.k. The command should output the number of errors due to gaps.
+     *
+     * @LWR 1.g.g.d.a. The command MUST output parse errors even for 
+     * requirements that do not fall within the super ID supplied to the 
+     * command.
      */
-    public function testReportFewestThings()
+    public function testReportFewestThings_Normal()
     {
         $analysis = new Analysis();
         $analysis->progress = 60;
@@ -326,7 +344,14 @@ class ReporterTest extends TestCase
                 'is_pending' => true,
                 'has_warning' => true,
                 'notes' => ['Well-written requirements use RFC 2119 keywords such as MUST, SHOULD, and MAY'],
-            ])
+            ]),
+
+            new RequirementAnalysis([]),
+
+            new RequirementAnalysis([
+                'line'            => 'PARSE ERROR',
+                'has_parse_error' => true,
+            ]),
         ];
         $analysis->rfc2119WarningCount = 1;
         $analysis->customFlagWarningCount = 2;
@@ -372,6 +397,8 @@ class ReporterTest extends TestCase
                     ['', ''],
                     ['-', '  3.a. Funny you should ask'],
                     ['-?', "  3.b. It shood happen to you\nWell-written requirements use RFC 2119 keywords such as MUST, SHOULD, and MAY"],
+                    ['', ''],
+                    ['', 'PARSE ERROR'],
                 ]
             )
             ->once();
@@ -420,8 +447,12 @@ class ReporterTest extends TestCase
      * failure to parse.
      *
      * @LWR 1.g.k. The command should output the number of errors due to gaps.
+     *
+     * @LWR 1.g.g.d.a. The command MUST output parse errors even for 
+     * requirements that do not fall within the super ID supplied to the 
+     * command.
      */
-    public function testReportFewerThings()
+    public function testReportFewerThings_Verbose()
     {
         $analysis = new Analysis();
         $analysis->progress = 60;
@@ -455,7 +486,14 @@ class ReporterTest extends TestCase
                 'is_pending' => true,
                 'has_warning' => true,
                 'notes' => ['Well-written requirements use RFC 2119 keywords such as MUST, SHOULD, and MAY'],
-            ])
+            ]),
+
+            new RequirementAnalysis([]),
+
+            new RequirementAnalysis([
+                'line'            => 'PARSE ERROR',
+                'has_parse_error' => true,
+            ]),
         ];
         $analysis->rfc2119WarningCount = 1;
         $analysis->customFlagWarningCount = 2;
@@ -503,6 +541,8 @@ class ReporterTest extends TestCase
                     ['', '3. The gods must be crazy'],
                     ['-', '  3.a. Funny you should ask'],
                     ['-?', "  3.b. It shood happen to you\nWell-written requirements use RFC 2119 keywords such as MUST, SHOULD, and MAY"],
+                    ['', ''],
+                    ['', 'PARSE ERROR'],
                 ]
             )
             ->once();

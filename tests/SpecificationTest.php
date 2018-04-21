@@ -58,10 +58,8 @@ class SpecificationTest extends TestCase
     /**
      * @LWR 1.f.a. If an ID was supplied as an argument, the command MAY only 
      * search for that requirement and its sub-requirements.
-     *
-     * In order
      */
-    public function testGetByIdWithChildren()
+    public function testGetByIdWithChildren_ExcludeParseErrors()
     {
         $set = [
             new Requirement('1. Code MUST yield manatees'),
@@ -72,6 +70,7 @@ class SpecificationTest extends TestCase
             '',
             new Requirement('2. Hot Cube'),
             new Requirement('2.a. Not Cube'),
+            new Requirement('2.b Parse error'),
         ];
 
         $specification = new Specification($set);
@@ -80,6 +79,41 @@ class SpecificationTest extends TestCase
 
         $this->assertCount(5, $tree);
         $this->assertEquals(array_slice($set, 0, 5), $tree);
+    }
+
+    /**
+     * @LWR 1.f.a. If an ID was supplied as an argument, the command MAY only 
+     * search for that requirement and its sub-requirements.
+     *
+     * @LWR 1.g.g.d.a. The command MUST output parse errors even for 
+     * requirements that do not fall within the super ID supplied to the 
+     * command.
+     */
+    public function testGetByIdWithChildren_IncludeParseErrors()
+    {
+        $set = [
+            new Requirement('1. Code MUST yield manatees'),
+            new Requirement('1.a. Code MUST yield tees'),
+            '',
+            new Requirement('1.b. Code MUST yield teas'),
+            new Requirement('1.b.a. Code MUST yield manna teas'),
+            '',
+            new Requirement('2. Hot Cube'),
+            new Requirement('2.a. Not Cube'),
+            new Requirement('2.b PARSE ERROR!!!'),
+        ];
+
+        $specification = new Specification($set);
+
+        $tree = $specification->getByIdWithChildren(1, true);
+
+        $this->assertCount(7, $tree);
+
+        $match = array_merge(
+            array_slice($set, 0, 5),
+            ['', $set[8]]
+        );
+        $this->assertEquals($match, $tree);
     }
 
     /**
