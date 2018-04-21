@@ -38,6 +38,9 @@ class Reporter
                     if ($requirement_analysis->is_incomplete) {
                         return true;
                     }
+                    if ($requirement_analysis->has_parse_error) {
+                        return true;
+                    }
                     return false;
                 }
                 if ($this->verbosity === static::VERBOSE) {
