@@ -38,6 +38,7 @@
             1.g.g.b. The command must output a warning with any requirements that use unknown flags that do not begin with a dash (-).
             1.g.g.c. The command must output a warning with any requirements that are incomplete.
             1.g.g.d. The command must output an error with any requirements that cannot be parsed.
+                1.g.g.d.a. The command MUST output parse errors even for requirements that do not fall within the super ID supplied to the command.
             1.g.g.e. The command must output an error with any requirement immediately following a gap.
             1.g.g.f. The command must output an error with any requirement with an ID that is duplicated.
             1.g.g.g. The command must output an error with any requirement that is out of order.
