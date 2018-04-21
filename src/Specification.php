@@ -28,13 +28,16 @@ class Specification
         return $this->lines;
     }
 
-    public function getByIdWithChildren(string $id) : array
+    public function getByIdWithChildren(string $id, bool $include_all_parse_errors = false) : array
     {
-        $requirements = array_values(array_filter($this->lines, function ($line) use ($id) {
+        $requirements = array_values(array_filter($this->lines, function ($line) use ($id, $include_all_parse_errors) {
             if (!$line instanceof Requirement) {
                 return true;
             }
             if (substr($line->id, 0, strlen($id)) === $id) {
+                return true;
+            }
+            if ($include_all_parse_errors && $line->hasParseError()) {
                 return true;
             }
             return false;

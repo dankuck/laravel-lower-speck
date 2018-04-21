@@ -303,7 +303,7 @@ class AnalyzerTest extends TestCase
         $analysis = $analyzer->getAnalysis($id);
 
         $this->assertEquals(0, $analysis->progress);
-        $this->assertEquals(1, $analysis->active);
+        $this->assertEquals(0, $analysis->active);
         $this->assertEquals(0, $analysis->addressed);
         $this->assertEquals(0, $analysis->obsolete);
         $this->assertEquals(1, $analysis->parseFailureCount);

@@ -107,11 +107,11 @@ class SpecificationTest extends TestCase
 
         $tree = $specification->getByIdWithChildren(1, true);
 
-        $this->assertCount(6, $tree);
+        $this->assertCount(7, $tree);
 
         $match = array_merge(
             array_slice($set, 0, 5),
-            [$set[8]]
+            ['', $set[8]]
         );
         $this->assertEquals($match, $tree);
     }
