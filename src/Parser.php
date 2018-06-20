@@ -27,6 +27,6 @@ class Parser
             }
         }
 
-        return app()->makeWith(Specification::class, ['lines' => $items]);
+        return new Specification($items);
     }
 }
