@@ -41,7 +41,7 @@ class Command extends \Illuminate\Console\Command
         $this->info('Results:');
 
         $this->make(Reporter::class, [
-                'anaylsis'  => $analysis, 
+                'analysis'  => $analysis, 
                 'verbosity' => $this->getVerbosity(),
             ])
             ->report($this);
