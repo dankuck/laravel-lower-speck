@@ -80,7 +80,6 @@ class CommandTest extends TestCase
         $caught_command = null;
         $caught_analysis = null;
         $caught_verbosity = null;
-        $caught_id = null;
 
         $id = 2;
         $spec = Mockery::mock(Specification::class);
@@ -88,7 +87,7 @@ class CommandTest extends TestCase
         $analysis = Mockery::mock(Analysis::class);
 
         $this->app->bind(Parser::class, function ($app, $args) use (&$caught_requirements_file, $spec) {
-            $caught_requirements_file = $args[0];
+            $caught_requirements_file = $args['filepath'];
             $parser = Mockery::mock(Parser::class);
             $parser->shouldReceive('getSpecification')
                 ->once()
@@ -97,7 +96,7 @@ class CommandTest extends TestCase
         });
         
         $this->app->bind(Config::class, function ($app, $args) use (&$caught_config_file) {
-            $caught_config_file = $args[0];
+            $caught_config_file = $args['filepath'];
             $config = Mockery::mock(Config::class);
             $config->shouldReceive('paths')
                 ->andReturn(['x', 'y', 'z']);
@@ -105,13 +104,13 @@ class CommandTest extends TestCase
         });
         
         $this->app->bind(ReferenceGrepper::class, function ($app, $args) use (&$caught_paths_list, $grepper) {
-            $caught_paths_list = $args[0];
+            $caught_paths_list = $args['paths'];
             return $grepper;
         });
 
         $this->app->bind(Analyzer::class, function ($app, $args) use (&$caught_specification, &$caught_grepper, $analysis, $id) {
-            $caught_specification = $args[0];
-            $caught_grepper = $args[1];
+            $caught_specification = $args['specification'];
+            $caught_grepper = $args['grepper'];
             $analyzer = Mockery::mock(Analyzer::class);
             $analyzer->shouldReceive('getAnalysis')
                 ->once()
@@ -120,10 +119,9 @@ class CommandTest extends TestCase
             return $analyzer;
         });
 
-        $this->app->bind(Reporter::class, function ($app, $args) use (&$caught_command, &$caught_analysis, &$caught_verbosity, &$caught_id) {
-            $caught_analysis = $args[0];
-            $caught_verbosity = $args[1];
-            $caught_id = $args[2];
+        $this->app->bind(Reporter::class, function ($app, $args) use (&$caught_command, &$caught_analysis, &$caught_verbosity) {
+            $caught_analysis = $args['analysis'];
+            $caught_verbosity = $args['verbosity'];
             $reporter = Mockery::mock(Reporter::class);
             $reporter->shouldReceive('report')
                 ->with(Mockery::on(function ($arg) use (&$caught_command) {
@@ -143,8 +141,6 @@ class CommandTest extends TestCase
         $this->assertTrue($caught_command instanceof Command);
         $this->assertEquals($analysis, $caught_analysis);
         $this->assertEquals(1, $caught_verbosity);
-        // strcmp is used next because == treats 2. as equal to 2
-        $this->assertEquals(0, strcmp("{$id}.", $caught_id)); 
 
         $this->seeInArtisan('Loading config...');
         $this->seeInArtisan('Parsing requirements.lwr...');
