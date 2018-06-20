@@ -49,10 +49,11 @@ class Command extends \Illuminate\Console\Command
 
     private function make(string $class, array $params)
     {
-        if (method_exists($this->app, 'makeWith')) {
-            return $this->app->makeWith($class, $params);
+        $app = app();
+        if (method_exists($app, 'makeWith')) {
+            return $app->makeWith($class, $params);
         } else {
-            return $this->app->make($class, $params);
+            return $app->make($class, $params);
         }
     }
 
