@@ -18,21 +18,21 @@ class Command extends \Illuminate\Console\Command
 
         $this->info('Loading config...', 'v');
 
-        $config = app(Config::class, ['filepath' => base_path('lower-speck.json')]);
+        $config = $this->make(Config::class, ['filepath' => base_path('lower-speck.json')]);
 
         $this->info('Parsing requirements.lwr...', 'v');
 
-        $specification = app(Parser::class, ['filepath' => base_path('requirements.lwr')])->getSpecification();
+        $specification = $this->make(Parser::class, ['filepath' => base_path('requirements.lwr')])->getSpecification();
 
         $this->info('Grepping code base...', 'v');
 
         $paths = array_map('base_path', $config->paths());
 
-        $grepper = app(ReferenceGrepper::class, ['paths' => $paths]);
+        $grepper = $this->make(ReferenceGrepper::class, ['paths' => $paths]);
 
         $this->info('Processing...', 'v');
 
-        $analysis = app(Analyzer::class, [
+        $analysis = $this->make(Analyzer::class, [
                 'specification' => $specification,
                 'grepper'       => $grepper,
             ])
@@ -40,11 +40,20 @@ class Command extends \Illuminate\Console\Command
 
         $this->info('Results:');
 
-        app(Reporter::class, [
+        $this->make(Reporter::class, [
                 'anaylsis'  => $analysis, 
                 'verbosity' => $this->getVerbosity(),
             ])
             ->report($this);
+    }
+
+    private function make(string $class, array $params)
+    {
+        if (method_exists($this->app, 'makeWith')) {
+            return $this->app->makeWith($class, $params);
+        } else {
+            return $this->app->make($class, $params);
+        }
     }
 
     private function getVerbosity() : int
