@@ -27,6 +27,6 @@ class Parser
             }
         }
 
-        return app(Specification::class, [$items]);
+        return app(Specification::class, ['lines' => $items]);
     }
 }

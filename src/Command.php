@@ -18,25 +18,33 @@ class Command extends \Illuminate\Console\Command
 
         $this->info('Loading config...', 'v');
 
-        $config = app(Config::class, [base_path('lower-speck.json')]);
+        $config = app(Config::class, ['filepath' => base_path('lower-speck.json')]);
 
         $this->info('Parsing requirements.lwr...', 'v');
 
-        $specification = app(Parser::class, [base_path('requirements.lwr')])->getSpecification();
+        $specification = app(Parser::class, ['filepath' => base_path('requirements.lwr')])->getSpecification();
 
         $this->info('Grepping code base...', 'v');
 
         $paths = array_map('base_path', $config->paths());
 
-        $grepper = app(ReferenceGrepper::class, [$paths]);
+        $grepper = app(ReferenceGrepper::class, ['paths' => $paths]);
 
         $this->info('Processing...', 'v');
 
-        $analysis = app(Analyzer::class, [$specification, $grepper])->getAnalysis($id);
+        $analysis = app(Analyzer::class, [
+                'specification' => $specification,
+                'grepper'       => $grepper,
+            ])
+            ->getAnalysis($id);
 
         $this->info('Results:');
 
-        app(Reporter::class, [$analysis, $this->getVerbosity()])->report($this);
+        app(Reporter::class, [
+                'anaylsis'  => $analysis, 
+                'verbosity' => $this->getVerbosity(),
+            ])
+            ->report($this);
     }
 
     private function getVerbosity() : int
