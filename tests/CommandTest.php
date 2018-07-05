@@ -33,6 +33,11 @@ class CommandTest extends TestCase
     }
 
     /**
+     * @LWR 1.e.c. The command MUST accept an ID as an optional argument.
+     * 
+     * @LWR 1.g.a. If an ID was supplied as an argument, the command MUST only 
+     * give output relative to that requirement and its sub-requirements.
+     * 
      * @LWR 1.e.a. The command must accept `-v` as an argument to enter 
      * verbose mode.
      *
