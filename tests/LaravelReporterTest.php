@@ -6,12 +6,12 @@ use TestCase;
 use Mockery;
 use Illuminate\Console\Command;
 
-class ReporterTest extends TestCase
+class LaravelReporterTest extends TestCase
 {
 
     public function testInstantiate()
     {
-        new Reporter(new Analysis([]), Reporter::NORMAL);
+        new LaravelReporter(new Analysis([]), LaravelReporter::NORMAL);
     }
 
     /**
@@ -111,7 +111,7 @@ class ReporterTest extends TestCase
         $analysis->parseFailureCount = 3;
         $analysis->gapErrorCount = 4;
 
-        $reporter = new Reporter($analysis, Reporter::VERY_VERBOSE);
+        $reporter = new LaravelReporter($analysis, LaravelReporter::VERY_VERBOSE);
 
         $command = Mockery::mock(Command::class);
         $command->shouldReceive('line')
@@ -232,7 +232,7 @@ class ReporterTest extends TestCase
         ];
         $analysis->duplicateIdErrorCount = 5;
 
-        $reporter = new Reporter($analysis, Reporter::VERY_VERBOSE);
+        $reporter = new LaravelReporter($analysis, LaravelReporter::VERY_VERBOSE);
 
         $command = Mockery::mock(Command::class);
         $command->shouldReceive('line')
@@ -358,7 +358,7 @@ class ReporterTest extends TestCase
         $analysis->parseFailureCount = 3;
         $analysis->gapErrorCount = 4;
 
-        $reporter = new Reporter($analysis, Reporter::NORMAL);
+        $reporter = new LaravelReporter($analysis, LaravelReporter::NORMAL);
 
         $command = Mockery::mock(Command::class);
         $command->shouldReceive('line')
@@ -500,7 +500,7 @@ class ReporterTest extends TestCase
         $analysis->parseFailureCount = 3;
         $analysis->gapErrorCount = 4;
 
-        $reporter = new Reporter($analysis, Reporter::VERBOSE);
+        $reporter = new LaravelReporter($analysis, LaravelReporter::VERBOSE);
 
         $command = Mockery::mock(Command::class);
         $command->shouldReceive('line')
@@ -593,7 +593,7 @@ class ReporterTest extends TestCase
             new RequirementAnalysis([]),
         ];
 
-        $reporter = new Reporter($analysis, Reporter::NORMAL);
+        $reporter = new LaravelReporter($analysis, LaravelReporter::NORMAL);
 
         $command = Mockery::mock(Command::class);
         $command->shouldReceive('line');
