@@ -27,7 +27,7 @@
         1.g.e. The command should output the number of requirements that are obsolete.
 
         1.g.f. The command must output a list of the requirements according to the following rules:
-            1.g.f.a In normal mode and above the command must output any requirements that are not addressed and not obsolete as well as any incomplete requirements that are addressed and not obsolete.
+            1.g.f.a. In normal mode and above the command must output any requirements that are not addressed and not obsolete as well as any incomplete requirements that are addressed and not obsolete.
             1.g.f.b. In verbose mode and above the command must output all requirements that are not obsolete.
             1.g.f.c. In double-verbose mode and above the command must output all requirements.
             1.g.f.d. Repeated blank lines should be collapsed to one.
