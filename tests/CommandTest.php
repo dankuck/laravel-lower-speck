@@ -33,24 +33,11 @@ class CommandTest extends TestCase
     }
 
     /**
-     * @LWR 1.a. The command must expect the Lower Speck file to be named 
-     * `requirements.lwr` and reside at the root of the project.
-     * 
-     * @LWR 1.b. The command should expect a file named `lower-speck.json` to 
-     * reside at the root of the project.
-     * 
-     * @LWR 1.d. The command must parse the `requirements.lwr` file into an 
-     * appropriate structure.
-     * 
      * @LWR 1.e.a. The command must accept `-v` as an argument to enter 
      * verbose mode.
      *
      * @LWR 1.e.b. The command must accept `-vv` as an argument to enter 
      * double-verbose mode.
-     *
-     * @LWR 1.f. The command must grep the directories from the `paths` array 
-     * (or else the root) recursively to find strings referencing the 
-     * requirements from the `requirements.lwr` file.
      * 
      * @LWR 1.g. The command must output a description of the code's 
      * references to the requirements.
@@ -64,8 +51,6 @@ class CommandTest extends TestCase
      * 
      * @LWR 1.g.f.c. In double-verbose mode and above the command must output 
      * all requirements.
-     *
-     * @LWR 1.e.c. The command must accept an ID as an optional argument.
      */
     public function testHandle()
     {
