@@ -16,29 +16,9 @@ class Command extends \Illuminate\Console\Command
             $id .= '.';
         }
 
-        $this->info('Loading config...', 'v');
+        $checker = $this->make(Checker::class, ['base_path' => base_path()]);
 
-        $config = $this->make(Config::class, ['filepath' => base_path('lower-speck.json')]);
-
-        $this->info('Parsing requirements.lwr...', 'v');
-
-        $specification = $this->make(Parser::class, ['filepath' => base_path('requirements.lwr')])->getSpecification();
-
-        $this->info('Grepping code base...', 'v');
-
-        $paths = array_map('base_path', $config->paths());
-
-        $grepper = $this->make(ReferenceGrepper::class, ['paths' => $paths]);
-
-        $this->info('Processing...', 'v');
-
-        $analysis = $this->make(Analyzer::class, [
-                'specification' => $specification,
-                'grepper'       => $grepper,
-            ])
-            ->getAnalysis($id);
-
-        $this->info('Results:');
+        $analysis = $checker->check($id);
 
         $this->make(Reporter::class, [
                 'analysis'  => $analysis, 
