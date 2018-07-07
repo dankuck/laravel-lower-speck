@@ -10,8 +10,8 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0",
-    "lower-speck/lower-speck-php": "^1.0"
+    "php": ">=7.0.0",
+    "lower-speck/lower-speck-php": "^1.2"
   },
   "require-dev": {
     "orchestra/testbench": "~3.0",
