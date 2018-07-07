@@ -4,7 +4,7 @@ namespace LowerSpeck;
 
 use Illuminate\Console\Command as IlluminateCommand;
 
-class Reporter
+class LaravelReporter
 {
     private $analysis;
     private $verbosity;
